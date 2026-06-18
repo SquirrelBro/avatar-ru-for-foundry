@@ -1,0 +1,27 @@
+{
+  "id": "avatar-ru-translate",
+  "title": " 'Легенда об Аватаре' ru",
+  "description": "Перевод системы 'Легенда об Аватаре' на русский язык.",
+  "authors": [
+    {
+      "name": "Белка"
+    }
+  ],
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "esmodules": [
+    "register.js"
+  ],
+  "relationships": {
+    "requires": [
+      {
+        "id": "babele",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
+  }
+}
