@@ -1,35 +1,38 @@
-const MODULE_ID = 'avatar-ru-translate'; // Change this ID!
-
-// No need to change the code below this line, but it’s your module so do it if you want!
+const MODULE_ID = 'avatar-ru-translate';
+console.log(`${MODULE_ID} | register.js loaded`);
 
 Hooks.on('init', () => {
+  console.log(`${MODULE_ID} | init hook`);
   game.settings.register(MODULE_ID, 'autoRegisterBabel', {
     name: 'Automatically activate translation via Babele',
-    hint: 'Automatically implements Babele translations without needing to point to the directory containing the translations.',
     scope: 'world',
     config: true,
     default: true,
     type: Boolean,
-    onChange: value => {
-      if (value) {
-        autoRegisterBabel();
-      }
-
-      window.location.reload();
-    },
   });
+});
 
+Hooks.once('babele.init', (babele) => {
+  console.log(`${MODULE_ID} | babele.init hook`);
   if (game.settings.get(MODULE_ID, 'autoRegisterBabel')) {
-    autoRegisterBabel();
+    babele.register({
+      module: MODULE_ID,
+      lang: 'ru',
+      dir: 'compendium/ru',
+    });
+    console.log(`${MODULE_ID} | registered with babele`);
   }
 });
 
-function autoRegisterBabel() {
-  if (typeof Babele !== 'undefined') {
+Hooks.on('ready', () => {
+  console.log(`${MODULE_ID} | ready hook, game.babele:`, !!game.babele);
+  if (game.babele && game.babele.modules.length === 0) {
+    console.log(`${MODULE_ID} | babele has 0 modules, trying to register via ready`);
     game.babele.register({
       module: MODULE_ID,
       lang: 'ru',
       dir: 'compendium/ru',
     });
+    console.log(`${MODULE_ID} | registered via ready hook`);
   }
-}
+});
